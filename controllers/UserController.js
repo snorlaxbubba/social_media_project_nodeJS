@@ -12,7 +12,7 @@ exports.RegisterUser = async function (req, res) {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password == passwordConfirm) {
-        const newUser = newUser({
+        const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,

@@ -29,14 +29,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// Set up session management
+// Set up session management with mongodb as our store
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const store = new MongoDBStore({
+    uri: uri, //reusing uri from above
+    collection: "sessions",
+});
+
+// Catch errors
+store.on("error", function (error) {
+    console.log(error);
+});
+
 app.use(
     require("express-session")({
     secret: "a long time ago in a galaxy far far away",
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 },
+    store: store,
     })
 );
+
+// Parse cookies and attach them to the request object
+app.use(cookieParser());
 
 // Initialize passport and configure for User model
 app.use(passport.initialize());
@@ -62,6 +79,14 @@ app.use(express.static("public"));
 // Index routes
 const indexRouter = require("./routers/indexRouter");
 app.use(indexRouter);
+
+// User routes
+const userRouter = require("./routers/userRouter");
+app.use("/user", userRouter);
+
+// Secure routes
+const secureRouter = require("./routers/secureRouter");
+app.use("/secure", secureRouter);
 
 // Start listening
 const port = process.env.PORT || 3003;

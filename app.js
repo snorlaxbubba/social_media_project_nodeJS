@@ -63,6 +63,14 @@ app.use(express.static("public"));
 const indexRouter = require("./routers/indexRouter");
 app.use(indexRouter);
 
+// User routes
+const userRouter = require("./routers/userRouter");
+app.use("/user", userRouter);
+
+// Secure routes
+const secureRouter = require("./routers/secureRouter");
+app.use("/secure", secureRouter);
+
 // Start listening
 const port = process.env.PORT || 3003;
 app.listen(port, () => console.log(`Auth Demo listening on port ${port}!`));

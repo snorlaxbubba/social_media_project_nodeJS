@@ -12,4 +12,10 @@ userRouter.post("/login", UserController.LoginUser);
 
 userRouter.get("/logout", UserController.Logout);
 
+userRouter.get("/profile", UserController.Profile);
+
+userRouter.get("/manager-area", UserController.ManagerArea);
+
+userRouter.get("/admin-area", UserController.AdminArea);
+
 module.exports = userRouter;

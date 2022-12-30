@@ -1,12 +1,10 @@
 <p>
-    Welcome to the secure area.
+   this is the test area.
 </p>
 
-<form action="/secure/set-colour" method="POST">   
+<form action="/secure/hello" method="POST">   
     <label for="favouriteColour">Enter Favourite Color:</label>
     <input type="color" name="favouriteColour" value="<%= reqInfo.colour ? reqInfo.colour: '#ffffff' %>">
     <br/>
     <input type="submit" value="Submit">
 </form>
-
-<a href="/secure/hello">test</a>

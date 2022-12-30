@@ -16,6 +16,9 @@ const userSchema = mongoose.Schema({
     lastName: {
         type: String,
     },
+    roles: {
+        type: Array,
+    },
 });
 
 userSchema.plugin(passportLocalmongoose);

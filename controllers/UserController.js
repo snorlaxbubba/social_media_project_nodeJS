@@ -2,6 +2,10 @@ const User = require("../models/User");
 const passport = require("passport");
 const RequestService = require("../services/RequestService");
 
+// import and instantiate our userOps object
+const UserOps = require("../data/UserOps");
+const _userOps = new UserOps();
+
 exports.Register = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     res.render("user/register", {errorMessage: "", user: {}, reqInfo: reqInfo });
@@ -12,7 +16,7 @@ exports.RegisterUser = async function (req, res) {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password == passwordConfirm) {
-        const newUser = newUser({
+        const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
@@ -32,7 +36,7 @@ exports.RegisterUser = async function (req, res) {
                 }
 
                 passport.authenticate("local")(req, res, function() {
-                    res.redirect("/secure/secure-area");
+                    res.redirect("/user/profile");
                 });
             }
         );
@@ -64,7 +68,7 @@ exports.Login = async function (req, res) {
 
 exports.LoginUser = (req, res, next) => {
     passport.authenticate("local", {
-        successRedirect: "/secure/secure-area",
+        successRedirect: "/user/profile",
         failureRedirect: "/user/login?errorMessage=Invalid login.",
     })(req, res, next);
 };
@@ -86,3 +90,47 @@ exports.Logout = (req, res) => {
         }
     });
 };
+
+exports.Profile = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    if (reqInfo.authenticated) {
+      let roles = await _userOps.getRolesByUsername(reqInfo.username);
+      let sessionData = req.session;
+      sessionData.roles = roles;
+      reqInfo.roles = roles;
+      let userInfo = await _userOps.getUserByUsername(reqInfo.username);
+      return res.render("user/profile", {
+        reqInfo: reqInfo,
+        userInfo: userInfo,
+      });
+    } else {
+      res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
+    }
+};
+
+exports.ManagerArea = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
+
+    if (reqInfo.rolePermitted) {
+        res.render("user/manager-area", { errorMessage: "", reqInfo: reqInfo });
+    } else {
+        res.redirect(
+            "/user/login?errorMessage=You must be a manager or admin to access this area."
+        );
+    }
+};
+
+exports.AdminArea = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req, ["Admin"]);
+
+    if (reqInfo.rolePermitted) {
+        res.render("user/admin-area", { errorMessage: "", reqInfo: reqInfo });
+    } else {
+        res.redirect(
+            "/user/login?errorMessage=You must be an admin to access this area."
+        );
+    }
+};
+

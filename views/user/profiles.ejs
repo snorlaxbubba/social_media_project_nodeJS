@@ -1,0 +1,9 @@
+<h1>Profiles</h1>
+
+<ul>
+    <% for (let i = 0; i < profiles.length; i++ ) {%>
+    <li>
+      <a href="/user/user-profile/<%= profiles[i].id %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
+    </li>
+    <% } %>
+</ul>

@@ -6,6 +6,7 @@ const RequestService = require("../services/RequestService");
 const UserOps = require("../data/UserOps");
 const _userOps = new UserOps();
 
+// Create
 exports.Register = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     res.render("user/register", {errorMessage: "", user: {}, reqInfo: reqInfo });
@@ -20,6 +21,7 @@ exports.RegisterUser = async function (req, res) {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
+            email: req.body.email,
         });
 
         User.register(
@@ -91,6 +93,7 @@ exports.Logout = (req, res) => {
     });
 };
 
+// Read
 exports.Profile = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
     if (reqInfo.authenticated) {
@@ -109,6 +112,44 @@ exports.Profile = async function (req, res) {
       );
     }
 };
+
+exports.Profiles = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    if (reqInfo.authenticated) {
+        let profiles = await _userOps.getAllUsers();
+
+        return res.render("user/profiles", {
+            reqInfo: reqInfo,
+            profiles: profiles,
+        })
+    } else {
+
+        res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
+    }
+};
+
+exports.Detail = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    if (reqInfo.authenticated) {
+        const userId = req.params.id;
+
+        let userProfile = await _userOps.getUserById(userId);
+
+        return res.render("user/user-profile", {
+            reqInfo: reqInfo,
+            userProfile: userProfile,
+            userId: req.params.id,
+        })
+    } else {
+
+        res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
+    }
+
+}
 
 exports.ManagerArea = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);

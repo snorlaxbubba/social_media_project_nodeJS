@@ -3,10 +3,15 @@ const User = require("../models/User");
 class UserOps {
     UserOps() {}
     
-    // async getAllUsers() {
-    //     let users = await User.find().sort({ name: 1});
-    //     return users;
-    // }
+    async getAllUsers() {
+        let users = await User.find().sort({ lastName: 1});
+        return users;
+    }
+
+    async getUserById(id) {
+        let userProfile = await User.findById(id);
+        return userProfile;
+    }
 
     async getUserByEmail(email) {
         let user = await User.findOne({ email: email });

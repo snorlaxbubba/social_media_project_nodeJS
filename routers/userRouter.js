@@ -14,6 +14,10 @@ userRouter.get("/logout", UserController.Logout);
 
 userRouter.get("/profile", UserController.Profile);
 
+userRouter.get("/profiles", UserController.Profiles);
+
+userRouter.get("/user-profile/:id", UserController.Detail);
+
 userRouter.get("/manager-area", UserController.ManagerArea);
 
 userRouter.get("/admin-area", UserController.AdminArea);

@@ -31,14 +31,31 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(fileUpload());
 
-// Set up session management
+// Set up session management with mongodb as our store
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const store = new MongoDBStore({
+    uri: uri, //reusing uri from above
+    collection: "sessions",
+});
+
+// Catch errors
+store.on("error", function (error) {
+    console.log(error);
+});
+
 app.use(
     require("express-session")({
     secret: "a long time ago in a galaxy far far away",
     resave: false,
     saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 },
+    store: store,
     })
 );
+
+// Parse cookies and attach them to the request object
+app.use(cookieParser());
 
 // Initialize passport and configure for User model
 app.use(passport.initialize());

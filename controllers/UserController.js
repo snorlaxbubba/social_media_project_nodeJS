@@ -206,7 +206,7 @@ exports.EditProfile = async function (request, response) {
     }
   
     let responseObj = await _userOps.updateUserByUserName(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
-  
+  //
     profiles = await _userOps.getAllProfiles();
   
     if (responseObj.errorMsg == "") {

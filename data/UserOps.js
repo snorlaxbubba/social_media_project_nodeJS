@@ -1,65 +1,64 @@
 const User = require("../models/User");
 
 class UserOps {
-    UserOps() {}
+  UserOps() {}
     
-    async getAllUsers() {
-        let users = await User.find().sort({ lastName: 1});
-        return users;
+  async getAllUsers() {
+    let users = await User.find().sort({ lastName: 1});
+    return users;
+  }
+
+  async getUserById(id) {
+    let userProfile = await User.findById(id);
+    return userProfile;
+  }
+
+  async getUserByEmail(email) {
+    let user = await User.findOne({ email: email });
+    if (user) {
+      const response = { obj: user, errorMessage: ""};
+      return response;
+    } else {
+      return null;
     }
+  }
 
-    async getUserById(id) {
-        let userProfile = await User.findById(id);
-        return userProfile;
+  async getUserByUsername(username) {
+    let user = await User.findOne(
+      { username: username },
+      { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
+    );
+    if (user) {
+      const response = { user: user, errorMessage: "" };
+      return response;
+    } else {
+      return null;
     }
+  }
 
-    async getUserByEmail(email) {
-        let user = await User.findOne({ email: email });
-        if (user) {
-            const response = { obj: user, errorMessage: ""};
-            return response;
-        } else {
-            return null;
-        }
+
+  async getRolesByUsername(username) {
+    let user = await User.findOne({ username: username }, { _id: 0, roles: 1 });
+    if (user.roles) {
+      return user.roles;
+    } else {
+      return [];
     }
+  }
 
-    async getUserByUsername(username) {
-        let user = await User.findOne(
-          { username: username },
-          { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
-        );
-        if (user) {
-          const response = { user: user, errorMessage: "" };
-          return response;
-        } else {
-          return null;
-        }
-    }
+  async updateUserByUsername(username, profileFirstName, profileLastName, profileEmail) {
+    const user = await User.findByUsername(username);
 
+    user.firstName = profileFirstName;
+    user.lastName = profileLastName;
+    user.email = profileEmail;
+    let result = await user.save();
 
-    async getRolesByUsername(username) {
-        let user = await User.findOne({ username: username }, { _id: 0, roles: 1 });
-        if (user.roles) {
-          return user.roles;
-        } else {
-          return [];
-        }
-    }
-
-
-
-
-    // async updateUserByEmail(id, name) {
-    //     const user = await User.findById(id);
-
-    //     user.name = name;
-    //     let result = await user.save();
-
-    //     return {
-    //         obj: result,
-    //         errorMsg: "",
-    //     };
-    // }
+    return {
+      obj: result,
+      errorMsg: "",
+    };
+  }
 }
 
 module.exports = UserOps;

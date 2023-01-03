@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const cookieParser = require("cookie-parser");
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
 const uri =
         "mongodb+srv://myamauchi:Charlie1@ssd-0.457s283.mongodb.net/social-media-project?retryWrites=true&w=majority";
@@ -28,6 +29,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(fileUpload());
 
 // Set up session management
 app.use(

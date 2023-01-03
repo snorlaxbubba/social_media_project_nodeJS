@@ -1,6 +1,7 @@
-<form action="/user/register" method="POST">   
+<form action="/user/edit" method="POST">   
     <table>
         <tr>
+
             <td>User Name: </td>
             <td><input name="username" type="text"
                        value="<%= user.username ? user.username : '' %>"></td>
@@ -28,6 +29,21 @@
             <td>Password Confirmation:</td>
             <td><input name="passwordConfirm" type="password"></td>
         </tr> 
+        <tr>
+            <td>Interests:</td>
+            <td><input id="interests" name="interests" type="text" value="<%= profile.interests.join(', ') %>"></td>
+        </tr>
+        <tr>
+            <td>Profile Picture</td>
+            <td>    
+                <input id="profilePic" name="profilePic" type="hidden" value="<%= profile.picturePath %>">
+                <% if (profile.picturePath) { %>
+                    <img src="<%= profile.picturePath %>">
+                <% } %>
+                <label for="picture">Profile Picture:</label>
+                <input type="file" name="picture">
+            </td>
+        </tr>
         <tr>
             <td></td>
             <td> <input type="submit" value="Submit"></td>

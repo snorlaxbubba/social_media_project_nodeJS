@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/styles.css" />
     <title>Node Passport Auth Demo</title>
 </head>
 <body>
@@ -11,8 +12,7 @@
         <div class="starter-template">
     
             <%if (reqInfo.authenticated) { %>
-              <a href="/">Home</a> | <a href="/user/profile">My Profile</a> | <a href="/user/profiles">View All Profiles</a> |
-<!-- comment -->
+              <a href="/">Home</a> | <a href="/user/profile/">My Profile</a> | <a href="/user/profiles">View All Profiles</a> |
                 <% if (reqInfo.roles.includes("Admin")) { %>
                   <a href='/user/admin-area'>Admin Area</a> | 
                 <% } %>
@@ -24,7 +24,7 @@
         <% } else { %>
            
           <a href='/user/login'>Login</a> |
-           <a href='/user/edit'>Register</a> 
+           <a href='/user/register'>Register</a> 
         <% } %>
             <!-- Child view goes here. -->
             <%- body %>

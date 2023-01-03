@@ -4,6 +4,10 @@ const userRouter = express.Router();
 const UserController = require("../controllers/UserController");
 const User = require("../models/User");
 
+const fs = require("fs").promises;
+const path = require("path");
+const dataPath = path.join(__dirname, "../data/");
+
 
 
 userRouter.get("/login", UserController.Login);

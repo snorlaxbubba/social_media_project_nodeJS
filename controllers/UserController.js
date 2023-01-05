@@ -232,55 +232,6 @@ exports.EditProfile = async function (request, response) {
     }
 };
 
-// exports.Edit = async function (req, res) {
-//     let reqInfo = RequestService.reqHelper(req);
-//     if (reqInfo.authenticated) {
-//         const userId = req.params.id;
-//         let userProfile = await _userOps.getUserById(userId);
-//         return res.render("user/register", {
-//             errorMessage: "",
-//             userId: userId,
-//             user: userProfile,
-//             reqInfo: reqInfo,
-//         })
-//     } else {
-//         res.redirect(
-//         "/user/login?errorMessage=You must be logged in to view this page."
-//       );
-//     }
-// };
-
-// exports.EditUser = async function (req, res) {
-//     let reqInfo = RequestService.reqHelper(req);
-//     if (reqInfo.authenticated) {
-//         const userId = req.params.id;
-//         const userFirstName = req.body.firstName;
-//         const userLastName = req.body.lastName;
-//         const userEmail = req.body.email;
-
-//         let responseObj = await _userOps.updateUserById(userId, userFirstName, userLastName, userEmail)
-
-//         if (responseObj.errorMsg == "") {
-//             let profiles = await _userOps.getAllUsers();
-//             res.render("user/profile", {
-//                 user: profiles, 
-//                 userId: responseObj.obj._id.valueOf(),
-//                 reqInfo: reqInfo
-//             });
-//         } else {
-//             res.render("user/register", {
-//                 profile: responseObj.obj,
-//                 userId: userId,
-//                 errorMessage: responseObj.errorMsg,
-//                 reqInfo: reqInfo,
-//             });
-//         }
-//     } else {
-//         res.redirect(
-//         "/user/login?errorMessage=You must be logged in to view this page."
-//       );
-//     }
-// }
 exports.ManagerArea = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
 

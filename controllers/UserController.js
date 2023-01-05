@@ -4,6 +4,7 @@ const RequestService = require("../services/RequestService");
 
 // import and instantiate our userOps object
 const UserOps = require("../data/UserOps");
+const { profile } = require("console");
 const _userOps = new UserOps();
 
 // Create
@@ -127,6 +128,7 @@ exports.Profiles = async function (req, res) {
         return res.render("user/profiles", {
             reqInfo: reqInfo,
             profiles: profiles,
+            errorMessage: ""
         })
     } else {
 
@@ -205,28 +207,30 @@ exports.EditProfile = async function (request, response) {
       path = null;
     }
   
+
     let responseObj = await _userOps.updateUserByUserName(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
   //
     profiles = await _userOps.getAllProfiles();
+
   
     if (responseObj.errorMsg == "") {
-      response.render("user/profile", {
+      response.render("user/user-profile", {
         reqInfo: reqInfo,
-        profileInfo: responseObj,
+        userProfile: responseObj,
         profiles: profiles,
-        layout: "./layouts/side-bar-layout"
+        // layout: "./layouts/side-bar-layout"
       });
     }
   
     else {
       console.log("An error occured. Item not created.");
-      response.render("profile-form", {
+      response.render("profile-edit", {
         profile: responseObj.obj,
         profiles: profiles,
         errorMessage: responseObj.errorMsg,
       });
     }
-  };
+};
 
 // exports.Edit = async function (req, res) {
 //     let reqInfo = RequestService.reqHelper(req);
@@ -301,3 +305,60 @@ exports.AdminArea = async function (req, res) {
     }
 };
 
+exports.DeleteUserById = async function (req, res) {
+    let username = req.params.username;
+
+    const userProfile = await _userOps.getRolesByUsername(username);
+    const profileId = userProfile.user._id;
+
+    let reqInfo = RequestService.reqHelper(req, ["Admin"]);
+
+    if(reqInfo.rolePermitted) {
+        let deleteUser = await _userOps.deleteUserById(profileId);
+        let users = await _userOps.getAllUsers();
+        if (deleteUser) {
+            return res.render("user/profiles", {
+                users: users,
+                reqInfo: reqInfo,
+                errorMessage: ""
+            });
+        }
+            else {
+                res.render("user/profiles", {
+                    profiles: users,
+                    reqInfo: reqInfo,
+                    errorMessage: "Profile Not Deleted"
+                });
+
+        };
+    }
+};
+
+exports.Comments = async function(req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+
+    const comment = {
+      commentBody: req.body.comment,
+      commentAuthor: reqInfo.username,
+    };
+
+    let profileInfo = await _userOps.addCommentToUser(
+      comment,
+      req.params.username
+    );
+
+    if (profileInfo.errorMessage = "") {
+        return res.render("user/user-profile", {
+            reqInfo: reqInfo,
+            userInfo: profileInfo,
+        });
+    } else {
+        console.log("An error occured. Item not created.");
+        res.render("user/profile", {
+          reqInfo: reqInfo,
+          userInfo: profileInfo,
+        });
+    }
+
+
+}

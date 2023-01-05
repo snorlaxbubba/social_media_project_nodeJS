@@ -2,13 +2,15 @@
 
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const cors = require("cors");
+const logger = require("morgan");
 const path = require("path");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
-const cookieParser = require("cookie-parser");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
+
 const uri =
         "mongodb+srv://myamauchi:Charlie1@ssd-0.457s283.mongodb.net/social-media-project?retryWrites=true&w=majority";
 
@@ -19,16 +21,25 @@ const db = mongoose.connection;
 db.once("open", function () {
     console.log("Connected to Mongo");
 });
+
 // Bind connection to error event (to get notification of connection errors)
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // Set up our server
 const app = express();
 
+app.use(cors({ origin: [/127.0.0.1*/, /localhost*/] }));
+
+// log all http requests
+app.use(logger("dev"));
+
 // Parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
+
 app.use(fileUpload());
 
 // Set up session management with mongodb as our store
@@ -47,15 +58,14 @@ store.on("error", function (error) {
 app.use(
     require("express-session")({
     secret: "a long time ago in a galaxy far far away",
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     cookie: { maxAge: 1000 * 600 },
     store: store,
     })
 );
 
-// Parse cookies and attach them to the request object
-app.use(cookieParser());
+
 
 // Initialize passport and configure for User model
 app.use(passport.initialize());
@@ -89,6 +99,11 @@ app.use("/user", userRouter);
 // Secure routes
 const secureRouter = require("./routers/secureRouter");
 app.use("/secure", secureRouter);
+
+// 404
+app.get("*", function (req, res) {
+    res.status(404).send('<h2 class="error">File Not Found</h2>');
+});
 
 // Start listening
 const port = process.env.PORT || 3003;

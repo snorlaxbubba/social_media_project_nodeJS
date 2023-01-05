@@ -25,8 +25,8 @@
     <% if(reqInfo.roles?.includes("Admin") || reqInfo.roles?.includes("Manager")) { %>
     <label for="roles">Roles:</label>
     <div class="roles">
-    <input type="checkbox" name="roles" value="Admin" <%= user.roles.includes("Admin") && "checked"%>>Admin
-    <input type="checkbox" name="roles" value="Manager" <%= user.roles.includes("Manager") && "checked"%>>Manager
+    <input type="checkbox" name="roles" value="Admin">Admin
+    <input type="checkbox" name="roles" value="Manager">Manager
     </div>
     <% } %> 
 

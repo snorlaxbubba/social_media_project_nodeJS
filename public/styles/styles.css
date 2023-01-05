@@ -63,6 +63,7 @@ h2 {
     max-width: 20rem;
     margin: 0 auto;
 }
+
 /* All Profiles
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 .all-profiles-card {
@@ -71,6 +72,7 @@ h2 {
     justify-content: space-around;
     list-style: none;   
     text-align: center;
+    margin: 2rem;
 }
 
 /* Error Handling */

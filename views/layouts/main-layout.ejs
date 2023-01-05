@@ -7,29 +7,15 @@
     <link rel="stylesheet" href="/styles/styles.css" />
     <title>Node Passport Auth Demo</title>
 </head>
-<body>
-    <main role="main" class="container">
-        <div class="starter-template">
-    
-            <%if (reqInfo.authenticated) { %>
-              <a href="/">Home</a> | <a href="/user/profile/">My Profile</a> | <a href="/user/profiles">View All Profiles</a> |
-                <% if (reqInfo.roles.includes("Admin")) { %>
-                  <a href='/user/admin-area'>Admin Area</a> | 
-                <% } %>
 
-                <% if (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) { %>
-                  <a href='/user/manager-area'>Manager Area</a> | 
-                <% } %>
-                <a href='/user/logout'>Logout</a> [<%= reqInfo.username %>]
-        <% } else { %>
-           
-          <a href='/user/login'>Login</a> |
-           <a href='/user/register'>Register</a> 
-        <% } %>
-            <!-- Child view goes here. -->
-            <%- body %>
-        </div>
-    </main>
-    
+<body>
+  <main role="main" class="container">
+    <div class="starter-template">
+      <%- include('../partials/header.ejs') %>
+      <%- body %>
+      <%- include('../partials/footer.ejs') %> 
+    </div>
+  </main>  
 </body>
+
 </html>

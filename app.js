@@ -60,7 +60,7 @@ app.use(
     secret: "a long time ago in a galaxy far far away",
     resave: true,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 },
+    cookie: { maxAge: 1000 * 600 },
     store: store,
     })
 );

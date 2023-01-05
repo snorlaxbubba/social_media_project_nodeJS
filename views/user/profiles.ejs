@@ -1,6 +1,5 @@
-<h1>Profiles</h1>
-
-<ul>
+<h1 class="all-profiles-main-header">Profiles</h1>
+  <ul class="all-profiles-card">
     <% for (let i = 0; i < profiles.length; i++ ) {%>
     <li>
       <a href="/user/user-profile/<%= profiles[i].id %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
@@ -13,3 +12,4 @@
 </ul>
 
 <%= errorMessage %>
+

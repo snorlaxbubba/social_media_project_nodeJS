@@ -1,8 +1,6 @@
 const User = require("../models/User");
 const passport = require("passport");
 const RequestService = require("../services/RequestService");
-const path = require("path");
-const dataPath = path.join(__dirname, "../public/");
 
 // import and instantiate our userOps object
 const UserOps = require("../data/UserOps");
@@ -14,14 +12,7 @@ exports.Register = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
     res.render("user/register", {
         errorMessage: "", 
-        user: {
-            firstName: "",
-            lastName: "",
-            email: "",
-            username: "",
-            interests: [],
-            picturePath: "",
-        }, 
+        user: {}, 
         reqInfo: reqInfo 
     });
 }
@@ -31,24 +22,11 @@ exports.RegisterUser = async function (req, res) {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password == passwordConfirm) {
-            let path = "";
-        if(req.files != null)
-        {
-        path = dataPath+"/images/"+req.files.picture.name
-        req.files.picture.mv(path) 
-        path = "/images/"+req.files.picture.name
-        }
-        else{
-        path = null;
-        }
-
         const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
             email: req.body.email,
-            interests: req.body.interests.split(", "),
-            picturePath: path
         });
 
         User.register(
@@ -77,8 +55,6 @@ exports.RegisterUser = async function (req, res) {
                 lastName: req.body.lastName,
                 email: req.body.email,
                 username: req.body.username,
-                interests: req.body.interests.split(", "),
-                picturePath: path
             },
             errorMessage: "Passwords do not match.",
             reqInfo: reqInfo,
@@ -128,16 +104,14 @@ exports.Profile = async function (req, res) {
     if (reqInfo.authenticated) {
       const userId = req.params.id;
       let roles = await _userOps.getRolesByUsername(reqInfo.username);
-      let userInfo = await _userOps.getUserByUsername(reqInfo.username);
       let sessionData = req.session;
       sessionData.roles = roles;
       reqInfo.roles = roles;
-      let picturePath = userInfo.picturePath
+      let userInfo = await _userOps.getUserByUsername(reqInfo.username);
       return res.render("user/profile", {
         reqInfo: reqInfo,
         userInfo: userInfo,
         userId: userId,
-        picturePath: picturePath,
       });
     } else {
       res.redirect(
@@ -233,9 +207,11 @@ exports.EditProfile = async function (request, response) {
       path = null;
     }
   
-    let responseObj = await _userOps.updateUserByUsername(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
 
-    profiles = await _userOps.getAllUsers();
+    let responseObj = await _userOps.updateUserByUserName(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
+  //
+    profiles = await _userOps.getAllProfiles();
+
   
     if (responseObj.errorMsg == "") {
       response.render("user/user-profile", {
@@ -256,6 +232,55 @@ exports.EditProfile = async function (request, response) {
     }
 };
 
+// exports.Edit = async function (req, res) {
+//     let reqInfo = RequestService.reqHelper(req);
+//     if (reqInfo.authenticated) {
+//         const userId = req.params.id;
+//         let userProfile = await _userOps.getUserById(userId);
+//         return res.render("user/register", {
+//             errorMessage: "",
+//             userId: userId,
+//             user: userProfile,
+//             reqInfo: reqInfo,
+//         })
+//     } else {
+//         res.redirect(
+//         "/user/login?errorMessage=You must be logged in to view this page."
+//       );
+//     }
+// };
+
+// exports.EditUser = async function (req, res) {
+//     let reqInfo = RequestService.reqHelper(req);
+//     if (reqInfo.authenticated) {
+//         const userId = req.params.id;
+//         const userFirstName = req.body.firstName;
+//         const userLastName = req.body.lastName;
+//         const userEmail = req.body.email;
+
+//         let responseObj = await _userOps.updateUserById(userId, userFirstName, userLastName, userEmail)
+
+//         if (responseObj.errorMsg == "") {
+//             let profiles = await _userOps.getAllUsers();
+//             res.render("user/profile", {
+//                 user: profiles, 
+//                 userId: responseObj.obj._id.valueOf(),
+//                 reqInfo: reqInfo
+//             });
+//         } else {
+//             res.render("user/register", {
+//                 profile: responseObj.obj,
+//                 userId: userId,
+//                 errorMessage: responseObj.errorMsg,
+//                 reqInfo: reqInfo,
+//             });
+//         }
+//     } else {
+//         res.redirect(
+//         "/user/login?errorMessage=You must be logged in to view this page."
+//       );
+//     }
+// }
 exports.ManagerArea = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req, ["Admin", "Manager"]);
 

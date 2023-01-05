@@ -21,7 +21,7 @@ userRouter.post("/edit/:username", UserController.EditProfile);
 
 userRouter.get("/logout", UserController.Logout);
 
-userRouter.get("/profile/:id", UserController.Profile);
+userRouter.get("/profile", UserController.Profile);
 
 userRouter.get("/profiles", UserController.Profiles);
 

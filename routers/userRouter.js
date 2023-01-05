@@ -31,4 +31,8 @@ userRouter.get("/manager-area", UserController.ManagerArea);
 
 userRouter.get("/admin-area", UserController.AdminArea);
 
+userRouter.post("/comment/:username", UserController.Comments);
+
+userRouter.get("/:username/delete", UserController.DeleteUserById);
+
 module.exports = userRouter;

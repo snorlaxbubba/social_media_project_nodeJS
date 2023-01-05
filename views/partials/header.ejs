@@ -1,19 +1,9 @@
 <section class="header">
     <%if (reqInfo.authenticated) { %>
         <a href="/">Home</a> 
-        <a href="/user/profile/">My Profile</a> 
         <a href="/user/profiles">View All Profiles</a> 
-        <% if (reqInfo.roles.includes("Admin")) { %>
-            <a href='/user/admin-area'>Admin Area</a>  
-        <% } %>
-
-        <% if (reqInfo.roles.includes("Admin") || reqInfo.roles.includes("Manager")) { %>
-            <a href='/user/manager-area'>Manager Area</a>  
-        <% } %>
+        <a href="/user/profile/">My Profile</a> 
         <a href='/user/logout'>Logout</a> <%= reqInfo.firstName %>
-    <% } else { %>
-    
-    <a href='/user/login'>Login</a> 
-    <a href='/user/register'>Register</a> 
+
     <% } %>
 </section>

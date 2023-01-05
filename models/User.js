@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const passportLocalmongoose = require("passport-local-mongoose");
 
-
-
 // Comment Schema
 const commentSchema = mongoose.Schema({
     commentAuthor: String,
@@ -21,8 +19,6 @@ const picturePostSchema = mongoose.Schema({
     picturePostPath: String,
     pictureInfo: [pictureInfoSchema],
 })
-  
-  
 
 const userSchema = mongoose.Schema({
     username: {

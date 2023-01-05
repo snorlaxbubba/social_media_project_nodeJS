@@ -1,4 +1,6 @@
-<form action="/user/register" method="POST" enctype="multipart/form-data">   
+<h1>Register</h1>
+
+<form action="/user/register" method="POST" enctype="multipart/form-data" class="register">   
     <table>
         <tr>
 
@@ -40,7 +42,6 @@
                 <% if (user.picturePath) { %>
                     <img src="<%= user.picturePath %>">
                 <% } %>
-                <label for="picture">Profile Picture:</label>
                 <input type="file" name="picture">
             </td>
         </tr>
@@ -50,4 +51,11 @@
         </tr>
     </table>
 </form>
+
+<div class="error">
 <%= errorMessage %><br/>
+</div>
+
+<div class="not-a-user">
+    <p>Have an account? <a href="/user/login">Log in</a></p>
+</div>

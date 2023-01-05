@@ -1,3 +1,5 @@
+<h1>Log in</h1>
+
 <form action="/user/login" method="POST" class="login-form">   
     <table>
         <tr>
@@ -15,4 +17,11 @@
         </tr>
     </table>
 </form>
+
+<div class="error">
 <%= errorMessage ? errorMessage : "" %><br/>
+</div>
+
+<div class="not-a-user">
+    <p>Not a User? <a href='/user/register'>Register</a></p>
+</div>

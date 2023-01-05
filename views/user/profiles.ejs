@@ -4,12 +4,14 @@
     <li>
       <a href="/user/user-profile/<%= profiles[i].id %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
 
+      <img src="<%= profiles[i].picturePath %>" alt="<%= profiles[i].username %>'s Profile Picture" height="250px">
       <% if(reqInfo.roles?.includes("Admin")) { %>
         <a href="/user/<%= profiles[i].username %>/delete"><button>Delete</button></a>
         <% } %>
     </li>
     <% } %>
 </ul>
-
+<div class="error">
 <%= errorMessage %>
+</div>
 

@@ -1,7 +1,12 @@
-const RequstService = require("../services/RequestService");
+const RequestService = require("../services/RequestService");
 
 exports.Index = async function(req, res) {
-    let reqInfo = RequstService.reqHelper(req);
+    let reqInfo = RequestService.reqHelper(req);
+    let errorMessage = req.query.errorMessage;
 
-    return res.render("index", { reqInfo: reqInfo });
+    res.render("index", {
+        user: {},
+        errorMessage: errorMessage,
+        reqInfo: reqInfo,
+    });
 }

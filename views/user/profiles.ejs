@@ -1,9 +1,13 @@
-<h1>Profiles</h1>
-
-<ul>
+<h1 class="all-profiles-main-header">Profiles</h1>
+  <ul class="all-profiles-card">
     <% for (let i = 0; i < profiles.length; i++ ) {%>
-    <li>
-      <a href="/user/user-profile/<%= profiles[i].id %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
+      <li>
+      <a href="/user/user-profile/<%= profiles[i].id %>">
+
+        <img src="<%= profiles[i].picturePath %>" alt="<% profiles[i].username%>'s Photo" height = 300px> 
+        <br />
+        <%= profiles[i].firstName %> <%= profiles[i].lastName %>
+      </a>
     </li>
     <% } %>
-</ul>
+  </ul>

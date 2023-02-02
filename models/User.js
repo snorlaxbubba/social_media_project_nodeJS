@@ -7,17 +7,14 @@ const commentSchema = mongoose.Schema({
     commentBody: String,
 });
 
-const pictureInfoSchema = mongoose.Schema({
-    pictureLikes: Number,
-    pictureCommentsAuthor: String,
-    pictureCommentsBody: String
-
-})
-
-const picturePostSchema = mongoose.Schema({
-    pictureAuthor: String,
+const postSchema = mongoose.Schema({
     picturePostPath: String,
-    pictureInfo: [pictureInfoSchema],
+    postBody: String,
+    postLikes: Number,
+
+    postCommentAuthor: String,
+    postCommentBody: String
+
 })
 
 const userSchema = mongoose.Schema({
@@ -45,7 +42,7 @@ const userSchema = mongoose.Schema({
         type: Array,
     },
     comments: [commentSchema],
-    picturePost: [picturePostSchema],
+    post: [postSchema],
 });
 
 userSchema.plugin(passportLocalmongoose);

@@ -38,11 +38,7 @@
         <tr>
             <td>Profile Picture</td>
             <td>    
-                <input id="profilePic" name="profilePic" type="hidden" value="<%= user.picturePath %>">
-                <% if (user.picturePath) { %>
-                    <img src="<%= user.picturePath %>">
-                <% } %>
-                <input type="file" name="picture">
+                <input type="file" name="photo" id="photo" >
             </td>
         </tr>
         <tr>

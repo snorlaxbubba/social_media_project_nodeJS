@@ -2,23 +2,24 @@
 <h2><%= userProfile.username%></h2>
 <p><%= userProfile.firstName %> <%= userProfile.lastName %></p>
 
-<% if(userProfile.picturePath) { %> 
+
     <img src="<%= userProfile.picturePath %>" alt=" <%= userProfile.username%>'s Profile Picture" height="250px">
-<% } %>
+
 
 <ul>
     <% for (let j = 0; j < userProfile.interests; j++) { %>
       <li><%= userProfile.interests[j] %></li>
     <% } %>
 
-    <% if(userProfile.comments && userProfile.comments.length > 0) { %>
-      <h4>Comments</h4>
-      <ul>
-        <% for (let j = 0; j < userProfile.comments.length; j++) { %>
-          <li><%= userProfile.comments[j].commentBody %> --- <%= userProfile.comments[j].commentAuthor %> </li>
-        <% } %>
-        <% } %>
-</ul>
+      <% let profileComments = userProfile.comments %>
+      <% if(userProfile.comments && profileComments.length > 0) { %>
+        <h4>Comments</h4>
+        <ul>
+          <% for (let j = 0; j < userProfile.comments.length; j++) { %>
+            <li><%= userProfile.comments[j].commentBody %> --- <%= userProfile.comments[j].commentAuthor %> </li>
+          <% } %>
+        </ul>
+      <% } %>
 
 <%if(userProfile.username != reqInfo.username) {%>
   <form action="/user/comment/<%= userProfile.username %>" method="POST" > 

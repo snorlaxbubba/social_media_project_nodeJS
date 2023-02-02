@@ -7,6 +7,9 @@ const UserOps = require("../data/UserOps");
 const { profile } = require("console");
 const _userOps = new UserOps();
 
+const path = require("path");
+const dataPath = path.join(__dirname, "../public/");
+
 // Create
 exports.Register = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
@@ -22,11 +25,24 @@ exports.RegisterUser = async function (req, res) {
     const passwordConfirm = req.body.passwordConfirm;
 
     if (password == passwordConfirm) {
+
+        let path = "";
+        if (req.files != null ) {
+            path = dataPath + "/images/" + req.files.photo.name
+            req.files.photo.mv(path)
+            path = "/images/" + req.files.photo.name
+        }
+        else {
+            path = null;
+        }
+
         const newUser = new User({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             username: req.body.username,
             email: req.body.email,
+            interests: req.body.interests.split(","),
+            picturePath: path
         });
 
         User.register(
@@ -98,6 +114,17 @@ exports.Logout = (req, res) => {
     });
 };
 
+//Directs to the user Home page
+exports.Home = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    let errorMessage = req.query.errorMessage;
+
+    res.render("user/user-home", {
+        user: {},
+        errorMessage: errorMessage,
+        reqInfo: reqInfo,
+    });
+}
 // Read
 exports.Profile = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
@@ -208,9 +235,9 @@ exports.EditProfile = async function (request, response) {
     }
   
 
-    let responseObj = await _userOps.updateUserByUserName(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
+    let responseObj = await _userOps.updateUserByUsername(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
   //
-    profiles = await _userOps.getAllProfiles();
+    profiles = await _userOps.getAllUsers();
 
   
     if (responseObj.errorMsg == "") {

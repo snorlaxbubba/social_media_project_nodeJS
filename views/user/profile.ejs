@@ -5,9 +5,9 @@
     Username: <%= userInfo.user.username %><br/>
     Name: <%= userInfo.user.firstName %> <%= userInfo.user.lastName %><br/>
     Email: <%= userInfo.user.email %><br/>
-    <% if(userInfo.user.picturePath) { %>
+
         <img src="<%= userInfo.user.picturePath %>" alt="<%= userInfo.username %>" height = 300px />    <br/>
-      <% } %>
+
 
 
     <% if(reqInfo.roles?.length) { %>

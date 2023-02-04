@@ -26,7 +26,7 @@ class UserOps {
   async getUserByUsername(username) {
     let user = await User.findOne(
       { username: username },
-      { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
+      { _id: 1, username: 1, email: 1, firstName: 1, lastName: 1, interests: 1, roles: 1, picturePath: 1, comments: 1}
     );
     if (user) {
       const response = { user: user, errorMessage: "" };
@@ -47,23 +47,25 @@ class UserOps {
   }
 
   async updateUserByUsername(username, profileFirstName, profileLastName, profileEmail, profileInterests, profileRoles, deleteProfilePic, picturePath) {
-    const user = await User.findByUsername(username);
+    const profile = await this.getUserByUsername(username);
 
-    user.firstName = profileFirstName;
-    user.lastName = profileLastName;
-    user.email = profileEmail;
-    user.interests = profileInterests;
-    user.roles = profileRoles;
+    
+    profile.user.firstName = profileFirstName;
+    profile.user.lastName = profileLastName;
+    profile.user.email = profileEmail;
+    profile.user.interests = profileInterests;
+    profile.user.roles = profileRoles;
 
     if(picturePath){
-      user.picturePath = picturePath;
+      profile.user.picturePath = picturePath;
     }
 
     if(deleteProfilePic){
-      user.picturePath = null;
+      profile.user.picturePath = null;
     }
 
-    let result = await user.save();
+    let result = await profile.user.save();
+    console.log(profile.user.errors);
 
     return {
       obj: result,

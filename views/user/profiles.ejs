@@ -3,8 +3,15 @@
   <ul>
     <% for (let i = 0; i < profiles.length; i++ ) {%>
     <li>
-      <a href="/user/profile/<%= profiles[i].username %>"><%= profiles[i].firstName %></a>
-  
+      <% if(profiles[i].picturePath) { %>
+        <a href="/user/profile/<%= profiles[i].username %>">
+          <img src="<%= profiles[i].picturePath %>" alt="<%= profiles[i].username %>'s Profile Picture" class="global-images" />
+          <%= profiles[i].firstName %>
+        </a>
+
+      <% } else {%>
+        <a href="/user/profile/<%= profiles[i].username %>"><%= profiles[i].firstName %></a>
+      <% } %>
       <% if(reqInfo.roles?.includes("Admin")) { %>
         | <a href="/user/<%= profiles[i].username %>/delete"><button>Delete</button></a>
       <% } %>

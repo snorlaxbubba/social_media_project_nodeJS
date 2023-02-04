@@ -24,18 +24,18 @@ class PostOps {
 //     }
 //   }
 
-  // async getUserByUsername(username) {
-  //   let post = await User.findOne(
-  //     { username: username },
-  //     { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
-  //   );
-  //   if (post) {
-  //     const response = { post: post, errorMessage: "" };
-  //     return response;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+  async getPostByUsername(username) {
+    let post = await User.findOne(
+      { username: username },
+      { _id: 0, username: 1, email: 1, firstName: 1, lastName: 1 }
+    );
+    if (post) {
+      const response = { post: post, errorMessage: "" };
+      return response;
+    } else {
+      return null;
+    }
+  }
 
 
 //   async getRolesByUsername(username) {

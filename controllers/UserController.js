@@ -157,28 +157,7 @@ exports.Profile = async function (req, res) {
         "/user/login?errorMessage=You cannot view this page"
       );
     }
-  };
-// // Read
-// exports.Profile = async function (req, res) {
-//     let reqInfo = RequestService.reqHelper(req);
-//     if (reqInfo.authenticated) {
-//       const userId = req.params.id;
-//       let roles = await _userOps.getRolesByUsername(reqInfo.username);
-//       let sessionData = req.session;
-//       sessionData.roles = roles;
-//       reqInfo.roles = roles;
-//       let userInfo = await _userOps.getUserByUsername(reqInfo.username);
-//       return res.render("user/profile", {
-//         reqInfo: reqInfo,
-//         userInfo: userInfo,
-//         userId: userId,
-//       });
-//     } else {
-//       res.redirect(
-//         "/user/login?errorMessage=You must be logged in to view this page."
-//       );
-//     }
-// };
+};
 
 exports.Profiles = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
@@ -197,27 +176,6 @@ exports.Profiles = async function (req, res) {
       );
     }
 };
-
-exports.Detail = async function (req, res) {
-    let reqInfo = RequestService.reqHelper(req);
-    if (reqInfo.authenticated) {
-        const userId = req.params.id;
-
-        let userProfile = await _userOps.getUserById(userId);
-
-        return res.render("user/user-profile", {
-            reqInfo: reqInfo,
-            userProfile: userProfile,
-            userId: req.params.id,
-        })
-    } else {
-
-        res.redirect(
-        "/user/login?errorMessage=You must be logged in to view this page."
-      );
-    }
-
-}
 
 // Update
 
@@ -270,13 +228,14 @@ exports.EditProfile = async function (request, response) {
 
     let responseObj = await _userOps.updateUserByUsername(username, userFirstName, userLastName, userEmail, profileInterests, userRoles, path, deleteProfilePic);
   //
+    profileInfo = await _userOps.getUserByUsername(request.params.username)
     profiles = await _userOps.getAllUsers();
 
   
     if (responseObj.errorMsg == "") {
-      response.render("user/user-profile", {
+      response.render("user/profile", {
         reqInfo: reqInfo,
-        userProfile: responseObj,
+        profileInfo: profileInfo,
         profiles: profiles,
         // layout: "./layouts/side-bar-layout"
       });

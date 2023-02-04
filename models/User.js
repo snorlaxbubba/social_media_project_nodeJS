@@ -1,21 +1,13 @@
 const mongoose = require("mongoose");
 const passportLocalmongoose = require("passport-local-mongoose");
+const { post } = require("../routers/indexRouter");
+const postModel = require("./Post");
 
 // Comment Schema
 const commentSchema = mongoose.Schema({
     commentAuthor: String,
     commentBody: String,
 });
-
-const postSchema = mongoose.Schema({
-    picturePostPath: String,
-    postBody: String,
-    postLikes: Number,
-
-    postCommentAuthor: String,
-    postCommentBody: String
-
-})
 
 const userSchema = mongoose.Schema({
     username: {
@@ -42,7 +34,7 @@ const userSchema = mongoose.Schema({
         type: Array,
     },
     comments: [commentSchema],
-    post: [postSchema],
+    posts: [postModel.schema],
 });
 
 userSchema.plugin(passportLocalmongoose);

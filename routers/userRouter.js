@@ -24,7 +24,7 @@ userRouter.get("/logout", UserController.Logout);
 userRouter.get("/home", UserController.Home);
 
 userRouter.get("/profile", UserController.Profile);
-userRouter.get("/profile/:username", UserController.Detail);
+userRouter.get("/profile/:username", UserController.Profile);
 
 userRouter.get("/profiles", UserController.Profiles);
 

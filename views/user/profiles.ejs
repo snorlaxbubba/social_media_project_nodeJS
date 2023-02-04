@@ -1,16 +1,17 @@
 <h1 class="all-profiles-main-header">Profiles</h1>
-  <ul class="all-profiles-card">
+<div>
+  <ul>
     <% for (let i = 0; i < profiles.length; i++ ) {%>
     <li>
-      <a href="/user/profile/<%= profiles[i].username %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
-
-      <img src="<%= profiles[i].picturePath %>" alt="<%= profiles[i].username %>'s Profile Picture" height="250px">
+      <a href="/user/profile/<%= profiles[i].username %>"><%= profiles[i].firstName %></a>
+  
       <% if(reqInfo.roles?.includes("Admin")) { %>
-        <a href="/user/<%= profiles[i].username %>/delete"><button>Delete</button></a>
-        <% } %>
+        | <a href="/user/<%= profiles[i].username %>/delete"><button>Delete</button></a>
+      <% } %>
     </li>
     <% } %>
-</ul>
+  </ul>
+  </div>
 <div class="error">
 <%= errorMessage %>
 </div>

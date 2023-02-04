@@ -130,34 +130,34 @@ exports.Profile = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
 
     if (reqInfo.authenticated) {
-        let roles = await _userOps.getRolesByUsername(reqInfo.username);
-        let sessionData = req.session;
-        sessionData.roles = roles;
-        reqInfo.roles = roles;
-        let userInfo = await _userOps.getUserByUsername(reqInfo.username);
-        let profileInfo = null;
-        if(req.params.username){
+      let roles = await _userOps.getRolesByUsername(reqInfo.username);
+      let sessionData = req.session;
+      sessionData.roles = roles;
+      reqInfo.roles = roles;
+      let userInfo = await _userOps.getUserByUsername(reqInfo.username);
+      let profileInfo = null;
+      if(req.params.username){
         profileInfo = await _userOps.getUserByUsername(req.params.username)
-        }
-        else{
+      }
+      else{
         profileInfo = userInfo
-        }
+      }
 
 
-        profiles = await _userOps.getAllUsers();
+      profiles = await _userOps.getAllUsers();
 
-        return res.render("user/profile", {
+      return res.render("user/profile", {
         reqInfo: reqInfo,
         userInfo: userInfo,
         profileInfo: profileInfo,
         profiles: profiles,
-        });
+      });
     } else {
-        res.redirect(
+      res.redirect(
         "/user/login?errorMessage=You cannot view this page"
-        );
+      );
     }
-};
+  };
 // // Read
 // exports.Profile = async function (req, res) {
 //     let reqInfo = RequestService.reqHelper(req);
@@ -201,7 +201,9 @@ exports.Profiles = async function (req, res) {
 exports.Detail = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
     if (reqInfo.authenticated) {
-        let userProfile = await _userOps.getUserByUsername(reqInfo.username);
+        const userId = req.params.id;
+
+        let userProfile = await _userOps.getUserById(userId);
 
         return res.render("user/user-profile", {
             reqInfo: reqInfo,

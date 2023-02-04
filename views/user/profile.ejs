@@ -1,14 +1,16 @@
 <h1>My Profile</h1>
-  <% if(profileInfo.user.imagePath) { %>
-    <img src="<%= profileInfo.user.imagePath %>" alt="<%= profileInfo.username %>" height = 300px />
+  <% if(profileInfo.user.picturePath) { %>
+    <img src="<%= profileInfo.user.picturePath %>" alt="<%= profileInfo.username %>" height = 300px />
   <% } %>
   <br/>
 
   Username: <%= profileInfo.user.username %><br/>
   Name: <%= profileInfo.user.firstName %> <%= profileInfo.user.lastName %><br/>
   Email: <%= profileInfo.user.email %><br/>
-  Interests: <% for (let j = 0; j  < profileInfo.user.interests; j++) { %> 
+  <% if(profileInfo.user.interests) { %>
+  Interests: <% for (let j = 0; j  < profileInfo.user.interests.length; j++) { %> 
     <li><%= profileInfo.user.interests[j] %></li><% } %>
+    <% } %>
   <% let profileComments = profileInfo.user.comments %>
     <% if(profileInfo.user.comments && profileComments.length > 0) { %>
       <h4>Comments</h4>

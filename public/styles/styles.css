@@ -1,10 +1,19 @@
+/* Colours 
+background: #fefbe9
+logo: #f9c453
+nav links: #183a1d
+nav hover-background: #e1eedd
+footer background #e1eedd
+typogrophy: #f0a04b
+*/
+
 /* Layouts */
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
 
 body {
     max-width: 100rem;
     margin: 0 auto;
-    background-color: rgb(250, 250, 230);
+    background-color: #fefbe9;
 }
 
 .container {
@@ -13,15 +22,31 @@ body {
 
 /* Partials */
 /* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
-@media (min-width: 600px) {
-    .header {
-        margin: 1rem;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: flex-end;
-    }
+header {
+    color: #183a1d;
+    background-color: #e1eedd;
+}               
 
-    .header a{
+header a:visited {
+    color: #183a1d;
+}
+
+@media (min-width: 600px) {
+    nav ul{
+        margin: 1rem;
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    nav li {
+        margin: 3rem 0;
+
+    }
+    
+
+    nav a{
         font-size: 1.5rem;
         margin: 0 1rem;
         padding: 1rem;
@@ -30,10 +55,10 @@ body {
         text-decoration: none;
     }
 
-    .header a:hover,
-    .header a:active,
-    .header a:focus {
-        background-color: rgb(225, 224, 224);
+    nav a:hover,
+    nav a:active,
+    nav a:focus {
+        background-color: #e1eedd;
         border-top: none;
         border-bottom: none;
         border-left: 0.125em solid black;;
@@ -71,13 +96,12 @@ footer a {
 
 /* Typogrophy
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------ */
-h1 {
+h1, h2, h3, h4, h5, h6 {
     text-align: center;
+    color: #e98b26;
 }
 
-h2 {
-    text-align: center;
-}
+
 /* Log In
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 .login-form {
@@ -112,7 +136,9 @@ h2 {
 .post-timeline img {
     max-width: 10rem;
 }
-
+.global-images {
+    max-width: 10rem;
+}
 /* All Profiles
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 .all-profiles-card {

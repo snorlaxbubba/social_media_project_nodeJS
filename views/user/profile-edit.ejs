@@ -2,10 +2,10 @@
 <link rel='stylesheet' href='/styles/styles.css' />
 <form action="/user/edit/<%= user.username %>" method="POST" enctype="multipart/form-data" > 
 
-        <!-- <% if(user.imagePath) { %>
+        <% if(user.imagePath) { %>
         <img src="<%= user.imagePath %>" alt="<%= user.username %>" height = 300px />
         <% } %>
-        <br/> -->
+        <br/>
 
     <input type="hidden" id="username" name="username" value="<%= reqInfo.username %>">
     <input type="hidden" id="profile_id" name="profile_id" value="<%= profile_id %>">

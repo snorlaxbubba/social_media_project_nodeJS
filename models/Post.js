@@ -7,6 +7,9 @@ const postCommentSchema = mongoose.Schema({
 })
 
 const postSchema = mongoose.Schema({
+    title: {
+        type: String
+    },
     picturePostPath: {
         type: String,
     },

@@ -1,117 +1,75 @@
-const User = require("../models/User");
+const Post = require("../models/Post");
 const passport = require("passport");
 const RequestService = require("../services/RequestService");
 
 // import and instantiate our userOps object
-const UserOps = require("../data/UserOps");
+const PostOps = require("../data/PostOps");
 const { profile } = require("console");
-const _userOps = new UserOps();
+const _postOps = new PostOps();
 
 const path = require("path");
 const dataPath = path.join(__dirname, "../public/");
 
 // Create
-exports.Register = async function(req, res) {
+exports.Create = async function(req, res) {
     let reqInfo = RequestService.reqHelper(req);
-    res.render("user/register", {
+    if (reqInfo.authenticated) {
+    res.render("post/create", {
         errorMessage: "", 
-        user: {}, 
+        post: {}, 
         reqInfo: reqInfo 
     });
+} else {
+    res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
+}
 }
 
-exports.RegisterUser = async function (req, res) {
-    const password = req.body.password;
-    const passwordConfirm = req.body.passwordConfirm;
 
-    if (password == passwordConfirm) {
+exports.CreatePost = async function (req, res) {
+    let reqInfo = RequestService.reqHelper(req);
+    if (reqInfo.authenticated) {
 
         let path = "";
         if (req.files != null ) {
-            path = dataPath + "/images/" + req.files.photo.name
+            path = dataPath + "/images/posts/" + req.files.photo.name
             req.files.photo.mv(path)
-            path = "/images/" + req.files.photo.name
+            path = "/images/posts/" + req.files.photo.name
         }
         else {
             path = null;
         }
 
-        const newUser = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            username: req.body.username,
-            email: req.body.email,
-            interests: req.body.interests.split(","),
-            picturePath: path
+        const newPost = new Post.model({
+            picturePostPath: path,
+            postBody: req.body.postBody,
+            postLikes: 0,
+            postComments: 0,
+            tags: req.body.tags.split(","),
+
         });
 
-        User.register(
-            new User(newUser),
-            req.body.password,
-            function (err, account) {
-                if (err) {
+        Post.model.create(
+            new Post.model(newPost),
+            function(err) {
+                if(err) {
                     let reqInfo = RequestService.reqHelper(req);
-                    return res.render("user/register", {
-                        user: newUser,
+                    return res.render("post/create", {
+                        post: newPost,
                         errorMessage: err,
                         reqInfo: reqInfo,
                     });
                 }
-
-                passport.authenticate("local")(req, res, function() {
-                    res.redirect("/user/profile");
-                });
             }
-        );
+        )
+        res.redirect("/post/home")
+
     } else {
-        let reqInfo = RequestService.reqHelper(req);
-        res.render("user/register", {
-            user: {
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                email: req.body.email,
-                username: req.body.username,
-            },
-            errorMessage: "Passwords do not match.",
-            reqInfo: reqInfo,
-        });
-    }
-};
-
-exports.Login = async function (req, res) {
-    let reqInfo = RequestService.reqHelper(req);
-    let errorMessage = req.query.errorMessage;
-
-    res.render("user/login", {
-        user: {},
-        errorMessage: errorMessage,
-        reqInfo: reqInfo,
-    });
-};
-
-exports.LoginUser = (req, res, next) => {
-    passport.authenticate("local", {
-        successRedirect: "/user/profile",
-        failureRedirect: "/user/login?errorMessage=Invalid login.",
-    })(req, res, next);
-};
-
-exports.Logout = (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            console.log("logout error");
-            return next(err);
-        }else {
-            let reqInfo = RequestService.reqHelper(req);
-
-            res.render("user/login", {
-                user: {}, 
-                isLoggedIn: false,
-                errorMessage: "",
-                reqInfo: reqInfo,
-            });
+        res.redirect(
+            "/user/login?errorMessage=You must be logged in to view this page."
+          );
         }
-    });
 };
 
 //Directs to the user Home page
@@ -119,66 +77,46 @@ exports.Home = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
     let errorMessage = req.query.errorMessage;
 
-    res.render("user/user-home", {
-        user: {},
-        errorMessage: errorMessage,
-        reqInfo: reqInfo,
-    });
-}
+    if (reqInfo.authenticated) {
+       let posts = await _postOps.getAllPosts();
 
+        if (posts) {
+            res.render("post/post-home", {
+                posts: posts,
+                errorMessage: errorMessage,
+                reqInfo: reqInfo,
+            });
+        } else {
+            posts = null;
+        }
+
+} else {
+    res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
+}
+}
+// Read
 exports.Profile = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
-
     if (reqInfo.authenticated) {
-        let roles = await _userOps.getRolesByUsername(reqInfo.username);
-        let sessionData = req.session;
-        sessionData.roles = roles;
-        reqInfo.roles = roles;
-        let userInfo = await _userOps.getUserByUsername(reqInfo.username);
-        let profileInfo = null;
-        if(req.params.username){
-        profileInfo = await _userOps.getUserByUsername(req.params.username)
-        }
-        else{
-        profileInfo = userInfo
-        }
-
-
-        profiles = await _userOps.getAllUsers();
-
-        return res.render("user/profile", {
+      const userId = req.params.id;
+      let roles = await _userOps.getRolesByUsername(reqInfo.username);
+      let sessionData = req.session;
+      sessionData.roles = roles;
+      reqInfo.roles = roles;
+      let userInfo = await _userOps.getUserByUsername(reqInfo.username);
+      return res.render("user/profile", {
         reqInfo: reqInfo,
         userInfo: userInfo,
-        profileInfo: profileInfo,
-        profiles: profiles,
-        });
+        userId: userId,
+      });
     } else {
-        res.redirect(
-        "/user/login?errorMessage=You cannot view this page"
-        );
+      res.redirect(
+        "/user/login?errorMessage=You must be logged in to view this page."
+      );
     }
 };
-// // Read
-// exports.Profile = async function (req, res) {
-//     let reqInfo = RequestService.reqHelper(req);
-//     if (reqInfo.authenticated) {
-//       const userId = req.params.id;
-//       let roles = await _userOps.getRolesByUsername(reqInfo.username);
-//       let sessionData = req.session;
-//       sessionData.roles = roles;
-//       reqInfo.roles = roles;
-//       let userInfo = await _userOps.getUserByUsername(reqInfo.username);
-//       return res.render("user/profile", {
-//         reqInfo: reqInfo,
-//         userInfo: userInfo,
-//         userId: userId,
-//       });
-//     } else {
-//       res.redirect(
-//         "/user/login?errorMessage=You must be logged in to view this page."
-//       );
-//     }
-// };
 
 exports.Profiles = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
@@ -201,7 +139,9 @@ exports.Profiles = async function (req, res) {
 exports.Detail = async function (req, res) {
     let reqInfo = RequestService.reqHelper(req);
     if (reqInfo.authenticated) {
-        let userProfile = await _userOps.getUserByUsername(reqInfo.username);
+        const userId = req.params.id;
+
+        let userProfile = await _userOps.getUserById(userId);
 
         return res.render("user/user-profile", {
             reqInfo: reqInfo,
@@ -357,15 +297,15 @@ exports.Comments = async function(req, res) {
     );
 
     if (profileInfo.errorMessage = "") {
-        return res.render("user/profile", {
+        return res.render("user/user-profile", {
             reqInfo: reqInfo,
-            profileInfo: profileInfo,
+            userInfo: profileInfo,
         });
     } else {
         console.log("An error occured. Item not created.");
         res.render("user/profile", {
           reqInfo: reqInfo,
-          profileInfo: profileInfo,
+          userInfo: profileInfo,
         });
     }
 

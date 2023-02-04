@@ -100,6 +100,10 @@ app.use("/user", userRouter);
 const secureRouter = require("./routers/secureRouter");
 app.use("/secure", secureRouter);
 
+// Post routes
+const postRouter = require("./routers/postRouter");
+app.use("/post", postRouter);
+
 // 404
 app.get("*", function (req, res) {
     res.status(404).send('<h2 class="error">File Not Found</h2>');

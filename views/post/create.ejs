@@ -1,0 +1,28 @@
+<h1>Post Create</h1>
+
+<form action="/post/create" method="POST" enctype="multipart/form-data" class="register">   
+    <table>
+        <tr>
+            <td>Upload a Picture</td>
+            <td>    
+                <input type="file" name="photo" id="photo" >
+            </td>
+        </tr>
+        <tr>
+            <td>Caption/text: </td>
+            <td><textarea id="postBody" name="postBody"></textarea></td>
+        </tr>
+        <tr>
+            <td>Tags: (separate by comma) </td>
+            <td><input name="tags" type="text"></td>
+        </tr>  
+        <tr>
+            <td></td>
+            <td> <input type="submit" value="Submit"></td>
+        </tr>
+    </table>
+</form>
+
+<div class="error">
+<%= errorMessage %><br/>
+</div>

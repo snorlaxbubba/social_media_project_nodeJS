@@ -1,14 +1,17 @@
 
 
 <section class="header">
+    <nav>
     <%if (reqInfo.authenticated) { %>
-        <a href="/user/home">Home</a> 
-        <a href="/user/profiles">View All Profiles</a> 
-        <a href="/user/profile/">My Profile</a> 
-        <a href='/user/logout'>Logout</a> <%= reqInfo.firstName %>
+
+        <li><a href="/post/home">Home</a></li>
+        <li><a href="/post/create">Post Create</a></li>
+        <li><a href="/user/profiles">View All Profiles</a></li>
+        <li><a href="/user/profile/">My Profile</a></li>
+        <li><a href='/user/logout'>Logout</a> <%= reqInfo.firstName %></li>
 
     <% } %>
-
+    </nav>
 <!-- 
         <a href="/user/login">Log In</a> 
         <a href="/user/register/">Register</a>  -->

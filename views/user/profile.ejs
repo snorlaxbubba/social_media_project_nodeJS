@@ -1,17 +1,40 @@
-<h1>
-    My Profile
-    </h1>
+<h1>My Profile</h1>
+  <% if(profileInfo.user.imagePath) { %>
+    <img src="<%= profileInfo.user.imagePath %>" alt="<%= profileInfo.username %>" height = 300px />
+  <% } %>
+  <br/>
 
-    Username: <%= userInfo.user.username %><br/>
-    Name: <%= userInfo.user.firstName %> <%= userInfo.user.lastName %><br/>
-    Email: <%= userInfo.user.email %><br/>
-
-        <img src="<%= userInfo.user.picturePath %>" alt="<%= userInfo.username %>" height = 300px />    <br/>
-
-
-
-    <% if(reqInfo.roles?.length) { %>
-    Roles: <%= reqInfo.roles %>
+  Username: <%= profileInfo.user.username %><br/>
+  Name: <%= profileInfo.user.firstName %> <%= profileInfo.user.lastName %><br/>
+  Email: <%= profileInfo.user.email %><br/>
+  Interests: <% for (let j = 0; j  < profileInfo.user.interests; j++) { %> 
+    <li><%= profileInfo.user.interests[j] %></li><% } %>
+  <% let profileComments = profileInfo.user.comments %>
+    <% if(profileInfo.user.comments && profileComments.length > 0) { %>
+      <h4>Comments</h4>
+      <ul>
+        <% for (let j = 0; j < profileInfo.user.comments.length; j++) { %>
+          <li><%= profileInfo.user.comments[j].commentBody %> --- <%= profileInfo.user.comments[j].commentAuthor %> </li>
+        <% } %>
+      </ul>
     <% } %>
-    <a href="/user/edit/<%= userInfo.user.username %>"><button>Edit</button></a>
-    
+
+
+
+  <% if(profileInfo.user.roles?.length) { %>
+  Roles: <%= profileInfo.user.roles %>
+  <% } %>
+
+  <% if(reqInfo.username == profileInfo.user.username || reqInfo.roles?.includes("Admin") || reqInfo.roles?.includes("Manager")) { %>
+    <a href="/user/edit/<%= profileInfo.user.username %>"><button>Edit</button></a> <% } %>
+    <br/>
+
+
+  <%if(profileInfo.user.username != reqInfo.username) {%>
+      <form action="/user/comment/<%= profileInfo.user.username %>" method="POST" > 
+        <input type="hidden" id="username" name="username" value="<%= profileInfo.user.username %>">
+        <label for="name"></label>
+        <input id="comment" name="comment" placeholder= "Please leave your comment" type="text" >
+        <button type="submit" value="Submit">Submit</button>
+      </form>
+  <% } %>

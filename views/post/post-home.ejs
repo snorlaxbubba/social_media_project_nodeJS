@@ -1,0 +1,23 @@
+<h1>Post Home</h1>
+
+<div>
+
+            <ul class="post-timeline">
+            <% for (let i = 0; i < posts.length; i++) { %>
+            <li>
+                <% if(posts[i].picturePostPath) { %>
+                    <img src="<%= posts[i].picturePostPath%>"/>
+                <% } %>
+                <p> <%= posts[i].postBody %></p>
+                <p> likes: <%= posts[i].postLikes %></p>
+                <p> comments" <%= posts[i].postComments %></p>
+
+                <br/>
+                <% for (let j = 0; j  < posts[i].tags; j++) { %>
+                    <span><%= posts[i].tags[j] %></span>
+                <% } %>
+            </li>
+
+       <% } %>
+    </ul>
+</div>

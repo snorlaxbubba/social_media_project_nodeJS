@@ -2,7 +2,7 @@
   <ul class="all-profiles-card">
     <% for (let i = 0; i < profiles.length; i++ ) {%>
     <li>
-      <a href="/user/user-profile/<%= profiles[i].id %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
+      <a href="/user/profile/<%= profiles[i].username %>"><%= profiles[i].firstName %> <%= profiles[i].lastName %></a> 
 
       <img src="<%= profiles[i].picturePath %>" alt="<%= profiles[i].username %>'s Profile Picture" height="250px">
       <% if(reqInfo.roles?.includes("Admin")) { %>

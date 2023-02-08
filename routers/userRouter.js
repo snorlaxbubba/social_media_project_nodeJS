@@ -21,18 +21,10 @@ userRouter.post("/edit/:username", UserController.EditProfile);
 
 userRouter.get("/logout", UserController.Logout);
 
-userRouter.get("/home", UserController.Home);
-
 userRouter.get("/profile", UserController.Profile);
 userRouter.get("/profile/:username", UserController.Profile);
 
 userRouter.get("/profiles", UserController.Profiles);
-
-
-
-userRouter.get("/manager-area", UserController.ManagerArea);
-
-userRouter.get("/admin-area", UserController.AdminArea);
 
 userRouter.post("/comment/:username", UserController.Comments);
 

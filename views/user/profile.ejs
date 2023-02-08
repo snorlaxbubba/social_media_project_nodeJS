@@ -4,11 +4,11 @@
   <% } %>
   <br/>
 
-  Username: <%= profileInfo.user.username %><br/>
-  Name: <%= profileInfo.user.firstName %> <%= profileInfo.user.lastName %><br/>
-  Email: <%= profileInfo.user.email %><br/>
+  <p>Username: <%= profileInfo.user.username %></p>
+  <p>Name: <%= profileInfo.user.firstName %> <%= profileInfo.user.lastName %></p>
+  <p>Email: <%= profileInfo.user.email %></p>
   <% if(profileInfo.user.interests) { %>
-  Interests: <% for (let j = 0; j  < profileInfo.user.interests.length; j++) { %> 
+  <p>Interests: <% for (let j = 0; j  < profileInfo.user.interests.length; j++) { %> </p>
     <li><%= profileInfo.user.interests[j] %></li><% } %>
     <% } %>
   <% let profileComments = profileInfo.user.comments %>

@@ -1,11 +1,11 @@
 
 
-<header class="header">
+<header>
+    <a href="/post/home"><img src="public/images/Chitter.png" alt="Cat looking at Twitter Bird"></a>
     <nav>
     <%if (reqInfo.authenticated) { %>
     <ul>
-        <li><a href="/post/home">Home</a></li>
-        <li><a href="/post/create">Post Create</a></li>
+        <li><a href="/post/create">Create Post</a></li>
         <li><a href="/user/profiles">View All Profiles</a></li>
         <li><a href="/user/profile/">My Profile</a></li>
         <li><a href='/user/logout'>Logout</a> <%= reqInfo.firstName %></li>

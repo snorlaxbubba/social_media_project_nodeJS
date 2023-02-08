@@ -5,6 +5,7 @@
             <ul class="post-timeline">
             <% for (let i = 0; i < posts.length; i++) { %>
             <li>
+                <h2> <%= posts[i].title %></h2>
                 <% if(posts[i].picturePostPath) { %>
                     <img src="<%= posts[i].picturePostPath%>"/>
                 <% } %>

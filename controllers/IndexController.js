@@ -1,3 +1,16 @@
+// Table of Contents - IndexController
+
+// Variables......7
+// Index..........17
+// About..........29
+// Accessibility..41
+// Contact........53
+// Faq............65
+// Privacy........77
+// Terms..........89
+
+//Global Variables 
+//---------------------------------------------------------------
 const RequestService = require("../services/RequestService");
 
 //User not logged in HomePage

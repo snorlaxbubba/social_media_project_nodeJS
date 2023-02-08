@@ -7,31 +7,62 @@ footer background #e1eedd
 typogrophy: #f0a04b
 */
 
-/* Layouts */
-/* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
+/* Variable Declarations
+------------------------------------------------------------------------------------------------------------------------------------ */
+:root {
+    --mainBackground: #262022;
+    --mainLinks:  #FF5E91;
+    --headerFooterBg: #1C1418;
+    --headerColor: #FF5E91;
+    --textColor: #ffffff;
+    --error: #ff0000;
+}
+
+/* Layouts
+------------------------------------------------------------------------------------------------------------------------------------ */
 
 body {
-    max-width: 100rem;
     margin: 0 auto;
-    background-color: #fefbe9;
+    background-color: var(--mainBackground);
 }
 
-.container {
-    min-height: 80rem;
+/* Typogrophy
+------------------------------------------------------------------------------------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6 { 
+    text-align: center;
+    color: var(--headerColor);
 }
 
-/* Partials */
-/* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
+p, td {
+    color: var(--textColor);
+}
+
+a, a:visited {
+    color: var(--mainLinks);
+}
+
+/* Partials 
+------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Header 
+---------------------------------------------*/
 header {
-    color: #183a1d;
-    background-color: #e1eedd;
+    /* margin-top: -1rem; */
+    color: var(--mainLinks);
+    background-color: var(--headerFooterBg);
+
 }               
 
 header a:visited {
-    color: #183a1d;
+    color: var(--mainLinks);
 }
 
 @media (min-width: 600px) {
+    header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
     nav ul{
         margin: 1rem;
         list-style: none;
@@ -40,44 +71,39 @@ header a:visited {
         flex-wrap: wrap;
         justify-content: space-around;
     }
+
     nav li {
         margin: 3rem 0;
 
     }
-    
 
     nav a{
         font-size: 1.5rem;
         margin: 0 1rem;
         padding: 1rem;
-        border-bottom: 0.125em solid black;
-        border-top: 0.125em solid black;
+        border-bottom: 0.125em solid var(--textColor);
+        border-top: 0.125em solid var(--textColor);
         text-decoration: none;
     }
 
     nav a:hover,
     nav a:active,
     nav a:focus {
-        background-color: #e1eedd;
         border-top: none;
         border-bottom: none;
-        border-left: 0.125em solid black;;
-        border-right: 0.125em solid black;;
+        border-left: 0.125em solid var(--textColor);
+        border-right: 0.125em solid var(--textColor);
     }
 }
-
-
-
-
-
 
 .toggle-display {
     display: none;
 }
-
-
-.footer {
+/* Footer 
+---------------------------------------------*/
+footer {
     text-align: center;
+    background-color: var(--headerFooterBg);
 }
 
 footer ul {
@@ -92,18 +118,17 @@ footer li {
 
 footer a {
     padding: .5rem;
+    color: var(--mainLinks);
 }
 
-/* Typogrophy
------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
-h1, h2, h3, h4, h5, h6 {
-    text-align: center;
-    color: #e98b26;
+footer a:visited {
+    color: var(--mainLinks);
 }
+
 
 
 /* Log In
--------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+------------------------------------------------------------------------------------------------------------------------------------ */
 .login-form {
     max-width: 20rem;
     margin: 0 auto;
@@ -113,15 +138,15 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
-/* Register */
-/* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
+/* Register
+------------------------------------------------------------------------------------------------------------------------------------ */
 .register {
     max-width: 25rem;
     margin: 0 auto;
 }
 
 /* Post Timeline
------------------------------------------------------------------------------------------------------------------------------------------------------------ */
+------------------------------------------------------------------------------------------------------------------------------------ */
 .post-timeline {
     padding: 0;
     list-style: none;
@@ -140,7 +165,7 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 10rem;
 }
 /* All Profiles
----------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
+------------------------------------------------------------------------------------------------------------------------------------ */
 .all-profiles-card {
     display: flex;
     flex-wrap: wrap;
@@ -150,10 +175,10 @@ h1, h2, h3, h4, h5, h6 {
     margin: 2rem;
 }
 
-/* Error Handling */
-/* ------------------------------------------------------------------------------------------------------------------------------------------------------ */
+/* Error Handling
+------------------------------------------------------------------------------------------------------------------------------------ */
 
 .error {
     text-align: center;
-    color: red;
+    color: var(--error);
 }
